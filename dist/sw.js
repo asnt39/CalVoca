@@ -1,4 +1,4 @@
-const CACHE = 'vocab-offline-v1';
+const CACHE = 'vocab-offline-v2';
 const HOME = new URL('./', self.registration.scope).href;
 const WORDS = new URL('./words.json', self.registration.scope).href;
 async function checked(url, kind) {
