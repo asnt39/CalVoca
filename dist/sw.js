@@ -1,6 +1,7 @@
-const CACHE = 'vocab-offline-v3';
+const CACHE = 'vocab-offline-v4';
 const HOME = new URL('./', self.registration.scope).href;
 const EXAM = new URL('./exam-words.json', self.registration.scope).href;
+const EXTRA = new URL('./voca-45-47.json', self.registration.scope).href;
 const WORDS = new URL('./words.json', self.registration.scope).href;
 async function checked(url, kind) {
   const response = await fetch(url, {cache:'no-store', credentials:'same-origin'});
@@ -13,9 +14,9 @@ async function checked(url, kind) {
   return response;
 }
 self.addEventListener('install', event => event.waitUntil((async () => {
-  const [home, words, exam] = await Promise.all([checked(HOME,'home'), checked(WORDS,'words'), checked(EXAM,'words')]);
+  const [home, words, exam, extra] = await Promise.all([checked(HOME,'home'), checked(WORDS,'words'), checked(EXAM,'words'), checked(EXTRA,'words')]);
   const cache = await caches.open(CACHE);
-  await Promise.all([cache.put(HOME,home), cache.put(WORDS,words), cache.put(EXAM,exam)]);
+  await Promise.all([cache.put(HOME,home), cache.put(WORDS,words), cache.put(EXAM,exam), cache.put(EXTRA,extra)]);
   await self.skipWaiting();
 })()));
 self.addEventListener('activate', event => event.waitUntil((async () => {
@@ -28,6 +29,7 @@ self.addEventListener('fetch', event => {
   let key,kind;
   if (request.mode === 'navigate' && new URL(request.url).pathname === new URL(HOME).pathname) { key=HOME;kind='home'; }
   else if (new URL(request.url).pathname === new URL(EXAM).pathname) { key=EXAM;kind='words'; }
+  else if (new URL(request.url).pathname === new URL(EXTRA).pathname) { key=EXTRA;kind='words'; }
   else if (new URL(request.url).pathname === new URL(WORDS).pathname) { key=WORDS;kind='words'; }
   else return;
   event.respondWith((async () => {
