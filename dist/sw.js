@@ -1,4 +1,4 @@
-const CACHE = 'vocab-offline-v13';
+const CACHE = 'vocab-offline-v14';
 const HOME = new URL('./', self.registration.scope).href;
 const EXAM = new URL('./exam-words.json', self.registration.scope).href;
 const EXAM_JULY = new URL('./exam-2024-07-words.json', self.registration.scope).href;
